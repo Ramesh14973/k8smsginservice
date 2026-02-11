@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('sourcedownload') {
             steps {
-                git credentialsId: 'msgreceiver', url: 'https://github.com/Ramesh14973/properties.git'
+                git credentialsId: 'msgreceiver', url: 'https://github.com/Ramesh14973/k8smsginservice.git'
             } // End of steps
         } // End of stage-sourcedownload
         stage('mvn test') {
@@ -24,7 +24,7 @@ pipeline {
         } // End of docker login
         stage('create Dcoker Image') {
             steps {
-                sh 'docker build -t k8smsginservice:latest'
+                sh 'docker build -t k8smsginservice:latest .'
             } // End of steps-clean and install
         } // End of create dockerimage
         stage('tag dockerimage') {
