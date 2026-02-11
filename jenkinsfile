@@ -24,12 +24,12 @@ pipeline {
         } // End of docker login
         stage('create Dcoker Image') {
             steps {
-                sh 'docker build -t properties:latest .'
+                sh 'docker build -t k8smsginservice:latest'
             } // End of steps-clean and install
         } // End of create dockerimage
         stage('tag dockerimage') {
             steps {
-                sh 'docker tag properties:latest rameshsubramani/messagespark:latest'
+                sh 'docker tag k8smsginservice:latest rameshsubramani/messagespark:latest'
             } // End of step
         } // End of tag dockerimage
         stage('push dockerimage') {
@@ -44,12 +44,12 @@ pipeline {
         } // End of deploy into kubectl
         stage('expose to service') { // expose into service with specific port 
             steps {
-                sh 'kubectl expose deployment propertiesservice-v1 --port=8085 --target-port=8085  --name=properties-service --type=ClusterIP'
+                sh 'kubectl expose deployment msginservice --port=8083 --target-port=8083  --name=msginservice-service --type=ClusterIP'
             } // End of step
         } // End of expose into service with specific port
         stage('patch IP to service') { // patch IP into service with specific port
             steps {
-                sh 'kubectl patch svc properties-service -p \'{"spec":{"externalIPs":["192.168.0.102"]}}\''
+                sh 'kubectl patch svc msginservice-service -p \'{"spec":{"externalIPs":["192.168.0.102"]}}\''
             } // End of step
         } // End of patch IP into service with specific port
     } // End of stages
